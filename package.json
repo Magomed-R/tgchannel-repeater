@@ -1,0 +1,19 @@
+{
+    "name": "tgchannel-repeater",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.ts",
+    "scripts": {
+        "start:dev": "nodemon main.ts",
+        "start:prod": "node main.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@types/node": "^20.12.11",
+        "dotenv": "^16.4.5",
+        "input": "^1.0.1",
+        "telegram": "^2.20.15"
+    }
+}
