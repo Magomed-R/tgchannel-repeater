@@ -6,10 +6,12 @@ import { StringSession } from "telegram/sessions";
 import fs from "fs";
 import { NewMessage, NewMessageEvent } from "telegram/events";
 import VKBot from "node-vk-bot-api";
+import { VK } from "vk-io";
 
-const { API_ID, API_HASH, CHANNEL_1, CHANNEL_2, VK_TOKEN, VK_CHAT, SEND_VK } =
+const { API_ID, API_HASH, CHANNEL_1, CHANNEL_2, VK_TOKEN, VK_CHAT, SEND_VK, VK_COMMUNITY } =
     process.env;
 
+const vk = new VK({ token: VK_TOKEN! });
 const vk_bot = new VKBot(VK_TOKEN!);
 
 const string_session = fs.readFileSync("session_string.txt", "utf-8");
@@ -74,6 +76,10 @@ client.addEventHandler(async (event: NewMessageEvent) => {
             }/${sended_message_for_vk.id})`;
 
             await vk_bot.sendMessage(VK_CHAT!, cut_message_for_vk);
+            await vk.api.wall.post({
+                owner_id: -Number(VK_COMMUNITY!),
+                message: cut_message_for_vk,
+            });
         }
     }
 }, new NewMessage({}));

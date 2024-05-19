@@ -16,6 +16,7 @@
         "dotenv": "^16.4.5",
         "input": "^1.0.1",
         "node-vk-bot-api": "^3.5.0",
-        "telegram": "^2.20.15"
+        "telegram": "^2.20.15",
+        "vk-io": "^4.9.1"
     }
 }
