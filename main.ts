@@ -5,8 +5,13 @@ import { Api, TelegramClient } from "telegram";
 import { StringSession } from "telegram/sessions";
 import fs from "fs";
 import { NewMessage, NewMessageEvent } from "telegram/events";
+import VKBot from "node-vk-bot-api";
 
-const { API_ID, API_HASH, CHANNEL_1, CHANNEL_2 } = process.env;
+const { API_ID, API_HASH, CHANNEL_1, CHANNEL_2, VK_TOKEN, VK_CHAT, SEND_VK } =
+    process.env;
+
+const vk_bot = new VKBot(VK_TOKEN!);
+
 const string_session = fs.readFileSync("session_string.txt", "utf-8");
 
 if (!string_session) {
@@ -53,10 +58,29 @@ client.addEventHandler(async (event: NewMessageEvent) => {
             event.message.message.split("\n")[0]
         } <a href="${post_url}">ПОДРОБНОСТИ...</a>\n<a href="${channel_url}">Подробности/подписка</a>`;
 
-        await client.sendMessage(CHANNEL_2!, {
+        const sended_message_for_vk = await client.sendMessage(CHANNEL_2!, {
             message: cut_message,
             parseMode: "html",
             linkPreview: false,
         });
+
+        if (SEND_VK!.toLowerCase() === "on") {
+            const channel_for_vk: any = await sended_message_for_vk.getChat();
+
+            const cut_message_for_vk = `${
+                event.message.message.split("\n")[0]
+            } \n Смотри полную ленту с подробностями тут (t.me/${
+                channel_for_vk.username
+            }/${sended_message_for_vk.id})`;
+
+            await vk_bot.sendMessage(VK_CHAT!, cut_message_for_vk);
+        }
     }
 }, new NewMessage({}));
+
+vk_bot.command("/id", (ctx) => {
+    console.log(ctx);
+    ctx.reply("ID текущего чата: " + ctx.message.peer_id);
+});
+
+vk_bot.startPolling();

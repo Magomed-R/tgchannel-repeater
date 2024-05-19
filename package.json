@@ -12,8 +12,10 @@
     "license": "ISC",
     "dependencies": {
         "@types/node": "^20.12.11",
+        "axios": "^1.6.8",
         "dotenv": "^16.4.5",
         "input": "^1.0.1",
+        "node-vk-bot-api": "^3.5.0",
         "telegram": "^2.20.15"
     }
 }
