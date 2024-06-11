@@ -6,7 +6,6 @@ const { StringSession } = require("telegram/sessions");
 const input = require("input");
 const fs = require("fs");
 
-const BOT_TOKEN = process.env.BOT_TOKEN;
 const apiId = process.env.API_ID;
 const apiHash = process.env.API_HASH;
 const stringSession = new StringSession("");
@@ -26,6 +25,8 @@ const stringSession = new StringSession("");
     fs.writeFileSync("session_string.txt", client.session.save(), "utf-8");
 
     await client.sendMessage("me", { message: "Hello!" });
+
+    await client.disconnect()
 
     process.exit()
 })();

@@ -1,11 +1,11 @@
 build:
-	docker build -t repeater:latest .
+    docker build -t repeater:latest .
 run:
-	docker run -d --name repeater repeater:latest
+    docker run -d --name repeater repeater:latest
 rm:
-	docker rm -f repeater
+    docker rm -f repeater
 rmi:
-	docker rmi -f repeater:latest
+    docker rmi -f repeater:latest
 restart:
     make rm
     make rmi
